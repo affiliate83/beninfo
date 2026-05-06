@@ -1,0 +1,367 @@
+/*
+Theme Name: Astra Child
+Template: astra
+Version: 1.0.0
+*/
+
+/* ── Pretendard 폰트 ── */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+
+body, p, span, div, a, h1, h2, h3, h4, h5, h6,
+li, td, th, input, button, textarea, select, label {
+    font-family: 'Pretendard', 'Noto Sans KR', -apple-system, sans-serif !important;
+}
+.dashicons, .dashicons-before::before,
+.wp-menu-image::before, .ab-icon::before { font-family: dashicons !important; }
+
+/* ── 전역 리셋 ── */
+a, a:visited, a:hover, a:active, a:focus { text-decoration: none !important; }
+body { background: #f5f6f8 !important; color: #1a1a2e !important; line-height: 1.7 !important; }
+
+/* ── 홈 Astra 컨테이너 초기화 ── */
+.home .entry-title { display: none !important; }
+.home .entry-content,
+.home #primary,
+.home .site-content {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+.home #primary .ast-container,
+.home .entry-content .ast-container,
+.home .ast-row {
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+}
+.home .entry-content > p:empty { display: none !important; }
+
+/* ── 헤더 (noinjob 동일: 흰 배경 + 하단 선) ── */
+.site-header, .ast-primary-header-bar, #masthead {
+    background: #fff !important;
+    border-bottom: 1px solid #e8eaed !important;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06) !important;
+}
+.ast-primary-header-bar .ast-container,
+#masthead .ast-container {
+    max-width: 1160px !important;
+    margin: 0 auto !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.site-title {
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    margin: 0 !important;
+}
+.site-title a, .site-title a:visited, .site-title a:hover { color: #1a1a2e !important; }
+.site-description { font-size: 12px !important; color: #888 !important; margin: 0 !important; }
+.main-header-menu .menu-item > a {
+    color: #333 !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    padding: 6px 14px !important;
+    border-radius: 6px !important;
+    transition: color 0.2s, background 0.2s !important;
+}
+.main-header-menu .menu-item > a:hover {
+    color: #4f46e5 !important;
+    background: #f5f3ff !important;
+}
+
+/* ── 히어로 (noinjob .nih-hero와 동일 구조, 색만 인디고로 변경) ── */
+.bi-hero {
+    background: linear-gradient(135deg, #818cf8 0%, #4f46e5 50%, #3730a3 100%) !important;
+    padding: 64px 20px 52px !important;
+    text-align: center !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.bi-hero-inner {
+    max-width: 760px !important;
+    margin: 0 auto !important;
+}
+.bi-hero-title {
+    font-size: 34px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    margin: 0 0 12px !important;
+    letter-spacing: -0.5px !important;
+    line-height: 1.3 !important;
+    border: none !important;
+    background: none !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+.bi-hero-sub {
+    font-size: 16px !important;
+    color: rgba(255,255,255,0.82) !important;
+    margin: 0 0 30px !important;
+    line-height: 1.6 !important;
+    display: block !important;
+}
+
+/* 검색창 (noinjob과 동일) */
+.bi-search-wrap { max-width: 600px !important; margin: 0 auto 36px !important; }
+.bi-search-box {
+    display: flex !important;
+    background: #fff !important;
+    border-radius: 50px !important;
+    overflow: hidden !important;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.22) !important;
+    height: 54px !important;
+}
+.bi-search-input {
+    flex: 1 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    padding: 0 22px !important;
+    font-size: 15px !important;
+    background: transparent !important;
+    color: #333 !important;
+    min-width: 0 !important;
+    height: 100% !important;
+}
+.bi-search-input::placeholder { color: #aaa !important; }
+.bi-search-btn {
+    background: #e84c3d !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 0 30px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    white-space: nowrap !important;
+    border-radius: 0 50px 50px 0 !important;
+    transition: background 0.2s !important;
+    height: 100% !important;
+}
+.bi-search-btn:hover { background: #c0392b !important; }
+
+/* 통계 (noinjob과 동일) */
+.bi-stats {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 40px !important;
+    flex-wrap: wrap !important;
+}
+.bi-stat-num {
+    display: block !important;
+    font-size: 30px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    line-height: 1.2 !important;
+}
+.bi-stat-label {
+    display: block !important;
+    font-size: 13px !important;
+    color: rgba(255,255,255,0.72) !important;
+    margin-top: 3px !important;
+}
+
+/* ── 카테고리 스트립 (noinjob .nih-cats-wrap과 동일 구조) ── */
+.bi-cats-wrap {
+    background: #fff !important;
+    border-bottom: 1px solid #e8eaed !important;
+    padding: 24px 20px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.bi-cats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 16px !important;
+    max-width: 1160px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+.bi-cat-card {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    padding: 18px 22px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e8eaed !important;
+    border-radius: 12px !important;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s !important;
+    color: #1a1a2e !important;
+}
+.bi-cat-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.09) !important;
+    border-color: #4f46e5 !important;
+}
+.bi-cat-icon { font-size: 30px !important; flex-shrink: 0 !important; line-height: 1 !important; }
+.bi-cat-info h3 {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    margin: 0 0 3px !important;
+    padding: 0 !important;
+    color: #1a1a2e !important;
+    border: none !important;
+    background: none !important;
+}
+.bi-cat-info p { font-size: 13px !important; color: #888 !important; margin: 0 !important; }
+
+/* ── 본문 (noinjob .nih-body-wrap과 동일 구조) ── */
+.bi-body-wrap { background: #f5f6f8 !important; width: 100% !important; }
+.bi-inner {
+    max-width: 1160px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+    box-sizing: border-box !important;
+}
+.bi-section { padding: 44px 0 0 !important; }
+.bi-section:last-child { padding-bottom: 52px !important; }
+.bi-section-head {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 18px !important;
+}
+.bi-section-head h2 {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #1a1a2e !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
+    box-shadow: none !important;
+}
+.bi-more-link {
+    font-size: 14px !important;
+    color: #4f46e5 !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+}
+.bi-more-link:hover { color: #3730a3 !important; }
+
+/* ── 포스트 카드 (noinjob .nih-posts-grid와 동일 구조) ── */
+.bi-posts-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 18px !important;
+}
+.bi-post-card {
+    display: flex !important;
+    flex-direction: column !important;
+    background: #fff !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    border: 1px solid #e8eaed !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+    color: #1a1a2e !important;
+}
+.bi-post-card:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1) !important;
+}
+.bi-post-meta {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-bottom: 10px !important;
+}
+/* 기본 배지: 인디고 */
+.bi-post-badge {
+    display: inline-block !important;
+    background: #ede9fe !important;
+    color: #4f46e5 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+}
+/* 청년: 에메랄드 그린 */
+.bi-badge-youth  { background: #ecfdf5 !important; color: #059669 !important; }
+/* 복지: 앰버 */
+.bi-badge-welfare { background: #fef3c7 !important; color: #d97706 !important; }
+/* D-Day 배지 */
+.bi-dday-badge {
+    display: inline-block !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+}
+.bi-dday-red    { background: #fff0f0 !important; color: #e84c3d !important; }
+.bi-dday-orange { background: #fff6e8 !important; color: #e67e22 !important; }
+.bi-post-date { font-size: 12px !important; color: #bbb !important; }
+.bi-post-title {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    line-height: 1.55 !important;
+    margin: 0 0 8px !important;
+    flex: 1 !important;
+    color: #1a1a2e !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+.bi-post-card:hover .bi-post-title { color: #4f46e5 !important; }
+.bi-post-excerpt {
+    font-size: 13px !important;
+    color: #888 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 12px !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+}
+.bi-post-footer {
+    font-size: 12px !important;
+    color: #bbb !important;
+    border-top: 1px solid #f0f0f0 !important;
+    padding-top: 10px !important;
+    margin-top: auto !important;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 900px) {
+    .bi-cats-grid  { grid-template-columns: repeat(2, 1fr) !important; }
+    .bi-posts-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+@media (max-width: 600px) {
+    .bi-hero-title { font-size: 26px !important; }
+    .bi-cats-grid  { grid-template-columns: 1fr !important; }
+    .bi-posts-grid { grid-template-columns: 1fr !important; }
+    .bi-stats { gap: 24px !important; }
+}
+
+/* ── 단일 포스트(policy) ── */
+.policy-meta-tags { margin: 8px 0 20px; }
+.policy-meta-tags span {
+    display: inline-block; padding: 4px 12px; border-radius: 20px;
+    font-size: 13px; font-weight: 600; margin-right: 6px;
+    background: #ede9fe; color: #4f46e5;
+}
+.policy-summary {
+    background: #f8f9ff; border-left: 4px solid #4f46e5;
+    padding: 16px 20px; margin-bottom: 24px;
+    border-radius: 0 8px 8px 0; color: #444;
+}
+.policy-cta a, .btn-apply {
+    display: inline-block; background: #4f46e5; color: #fff !important;
+    padding: 12px 28px; border-radius: 6px; font-weight: 600;
+    text-decoration: none !important; margin-top: 24px;
+}
+.policy-cta a:hover, .btn-apply:hover { background: #3730a3; }
+.policy-archive .posted-by,
+.ast-article-post .posted-by,
+.entry-meta .posted-by { display: none !important; }
+
+/* WordPress가 entry-content 안에 주입하는 빈 p/br 숨김 */
+.home .entry-content > p,
+.home .entry-content > br { display: none !important; }
