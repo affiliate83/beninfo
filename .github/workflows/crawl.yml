@@ -36,7 +36,7 @@ jobs:
           EOF
 
       - name: Senuri 채용공고 수집
-        run: python -m crawler.main --source senuri
+        run: python -m crawler.main --source senuri --pages 3
 
       - name: 기존 포스트 AI 풍부화 (50건)
         run: python crawler/enrich_existing_posts.py
@@ -45,6 +45,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dedup.db
+          git add -f dedup.db
           git diff --staged --quiet || git commit -m "chore: dedup.db 업데이트 $(date +'%Y-%m-%d')"
           git push
