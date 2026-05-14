@@ -12,9 +12,23 @@ from crawler.sources.local_welfare import fetch_all as fetch_local
 from crawler.sources.senuri_jobs import fetch_all as fetch_senuri
 from crawler.poster.wordpress import post
 from crawler.utils.dedup import is_seen, mark_seen
+from crawler.utils.enricher import enrich_job, enrich_policy
 from crawler.utils.logger import get_logger
 
 logger = get_logger("main")
+
+
+def _enrich(item: dict) -> None:
+    """신규 글에만 AI 풍부화 적용 (중복 체크 이후 호출)."""
+    source_type = item.get("source_type", "")
+    if source_type == "senuri_jobs":
+        enriched = enrich_job(item)
+        if enriched:
+            base = item.get("content_override", "")
+            item["content_override"] = base + "\n" + enriched
+    elif source_type in ("national_welfare", "local_welfare"):
+        item["ai_enriched"] = enrich_policy(item)
+
 
 SOURCES = {
     "national": fetch_national,
@@ -53,6 +67,7 @@ def run(sources: list[str], dry_run: bool = False, max_pages: int = None):
                 new_count += 1
                 continue
 
+            _enrich(item)
             wp_id = post(item)
             if wp_id:
                 mark_seen(source_id, item.get("source_type", ""), wp_id)

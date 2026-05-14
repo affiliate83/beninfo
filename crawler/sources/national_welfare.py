@@ -3,7 +3,6 @@ import os
 import requests
 from lxml import etree
 from crawler.utils.logger import get_logger
-from crawler.utils.enricher import enrich_policy
 
 logger = get_logger("national_welfare")
 
@@ -88,7 +87,6 @@ def fetch_list(page: int = 1, num_of_rows: int = 100, detail_delay: float = 5.0)
             "support_scale":   _text(item, "srvPvsnNm"),
             "policy_category": category,
         }
-        data["ai_enriched"] = enrich_policy(data)
         items.append(data)
     return items
 

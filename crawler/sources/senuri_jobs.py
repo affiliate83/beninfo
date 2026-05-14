@@ -3,7 +3,7 @@ import time
 import requests
 import xml.etree.ElementTree as ET
 from crawler.utils.logger import get_logger
-from crawler.utils.enricher import enrich_job
+from crawler.utils.region import extract_region
 
 logger = get_logger("senuri_jobs")
 
@@ -63,15 +63,13 @@ def _get_detail(job_id):
 
 
 def _map_category(age_str: str) -> str:
-    """나이 요건으로 카테고리 분류 (없으면 고용, 39 이하 → 청년, 50 이상 → 복지)"""
+    """나이 요건으로 카테고리 분류 (39 이하 → 청년, 나머지 → 고용)"""
     if not age_str:
         return "고용"
     try:
         age = int("".join(filter(str.isdigit, age_str)))
         if age <= 39:
             return "청년"
-        if age >= 50:
-            return "복지"
     except ValueError:
         pass
     return "고용"
@@ -137,14 +135,21 @@ def fetch_all(max_pages: int = 10, delay: float = 2.0) -> list[dict]:
 
             company  = _text(item, "oranNm")
             title_raw = _text(item, "recrtTitle") or company
-            # 노인일자리 공고는 제목에 표시, 청년/일반은 그대로
-            title = f"[시니어 일자리] {title_raw}" if category == "복지" else title_raw
+            # 50세 이상 채용공고는 제목에 표시 (카테고리는 고용)
+            is_senior = False
+            if age_str:
+                try:
+                    is_senior = int("".join(filter(str.isdigit, age_str))) >= 50
+                except ValueError:
+                    pass
+            title = f"[시니어 일자리] {title_raw}" if is_senior else title_raw
 
             end_date_raw = _text(item, "toDd")  # YYYYMMDD
 
             emp_type = EMPL_TYPE.get(_text(item, "emplymShpNm"), _text(item, "emplymShpNm"))
             address  = _text(detail, "plDetAddr") if detail is not None else ""
             excerpt  = " | ".join(p for p in [company, emp_type, address] if p)
+            region   = extract_region(address)
 
             job_data = {
                 "source_id":            f"senuri_{job_id}",
@@ -159,10 +164,10 @@ def fetch_all(max_pages: int = 10, delay: float = 2.0) -> list[dict]:
                 "support_scale":        emp_type,
                 "policy_category":      category,
                 "application_end_date": end_date_raw,
+                "policy_region":        region[0] if region else "",
+                "policy_region_slug":   region[1] if region else "",
             }
-            base_content = _build_content(item, detail)
-            enriched     = enrich_job(job_data)
-            job_data["content_override"] = base_content + ("\n" + enriched if enriched else "")
+            job_data["content_override"] = _build_content(item, detail)
             results.append(job_data)
 
         if len(items) < 100:
