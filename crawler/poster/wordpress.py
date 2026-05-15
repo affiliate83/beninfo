@@ -14,7 +14,7 @@ def _auth():
     return HTTPBasicAuth(WP_USERNAME, WP_APP_PASSWORD)
 
 
-def _get_or_create_term(taxonomy: str, name: str) -> int | None:
+def _get_or_create_term(taxonomy: str, name: str, slug: str = None) -> int | None:
     if not name:
         return None
     resp = requests.get(
@@ -29,9 +29,12 @@ def _get_or_create_term(taxonomy: str, name: str) -> int | None:
             if item.get("name") == name:
                 return item["id"]
 
+    create_data = {"name": name}
+    if slug:
+        create_data["slug"] = slug
     resp = requests.post(
         f"{WP_URL}/wp-json/wp/v2/{taxonomy}",
-        json={"name": name},
+        json=create_data,
         auth=_auth(),
         timeout=10,
     )
@@ -43,7 +46,11 @@ def _get_or_create_term(taxonomy: str, name: str) -> int | None:
 
 def post(item: dict) -> int | None:
     category_id = _get_or_create_term("policy_category", item.get("policy_category"))
-    region_id = _get_or_create_term("policy_region", item.get("policy_region"))
+    region_id = _get_or_create_term(
+        "policy_region",
+        item.get("policy_region", ""),
+        item.get("policy_region_slug", ""),
+    )
 
     taxonomy_ids = {}
     if category_id:

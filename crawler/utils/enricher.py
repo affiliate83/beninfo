@@ -21,6 +21,11 @@ def _get_client():
     return _client
 
 
+def _sanitize(html: str) -> str:
+    """200자 이상 연속 비공백 문자(base64, 깨진 인코딩 등) 제거"""
+    return re.sub(r'\S{200,}', '', html)
+
+
 def _call(prompt: str, max_tokens: int = 800) -> str:
     client = _get_client()
     if client is None:
@@ -31,7 +36,8 @@ def _call(prompt: str, max_tokens: int = 800) -> str:
             max_tokens=max_tokens,
             messages=[{"role": "user", "content": prompt}],
         )
-        return _FENCE_RE.sub("", msg.content[0].text).strip()
+        raw = _FENCE_RE.sub("", msg.content[0].text).strip()
+        return _sanitize(raw)
     except Exception as e:
         logger.warning("Claude API 실패: %s", e)
         return ""
