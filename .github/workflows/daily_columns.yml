@@ -1,0 +1,36 @@
+name: 칼럼 자동 발행 (하루 2편)
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 매일 KST 11:00 (UTC 02:00)
+  workflow_dispatch:       # 수동 실행 버튼
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 의존성 설치
+        run: pip install -r requirements.txt
+
+      - name: .env 생성
+        run: |
+          cat > .env << 'EOF'
+          WP_URL=${{ secrets.WP_URL }}
+          WP_USERNAME=${{ secrets.WP_USERNAME }}
+          WP_APP_PASSWORD=${{ secrets.WP_APP_PASSWORD }}
+          ANTHROPIC_API_KEY=${{ secrets.ANTHROPIC_API_KEY }}
+          PEXELS_API_KEY=${{ secrets.PEXELS_API_KEY }}
+          EOF
+
+      - name: 칼럼 2편 자동 발행
+        run: python crawler/daily_columns.py
