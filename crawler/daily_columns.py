@@ -128,12 +128,18 @@ TOPICS = [
 
 def get_existing_titles() -> set:
     titles, page = set(), 1
+    print(f'  WP_URL={WP_URL}')
+    print(f'  WP_USER={WP_USER[:4]}***' if WP_USER else '  WP_USER=(없음)')
     res = requests.get(
         f'{WP_URL}/wp-json/wp/v2/categories',
         auth=AUTH,
         params={'slug': COLUMN_CATEGORY_SLUG, 'per_page': 1},
         timeout=10,
     )
+    print(f'  카테고리 조회 상태: {res.status_code}')
+    if res.status_code != 200 or not res.text.strip():
+        print(f'  응답 본문: {res.text[:200]}')
+        return titles
     cats = res.json()
     if not cats:
         return titles
