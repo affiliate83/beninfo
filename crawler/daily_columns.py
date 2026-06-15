@@ -18,6 +18,7 @@ PEXELS_KEY    = os.getenv('PEXELS_API_KEY', '')
 ANTHROPIC_KEY = os.getenv('ANTHROPIC_API_KEY', '')
 
 AUTH           = (WP_USER, WP_APP_PASS)
+WP_HEADERS     = {'Content-Type': 'application/json', 'Accept': 'application/json'}
 PEXELS_HEADERS = {'Authorization': PEXELS_KEY}
 client         = anthropic.Anthropic(api_key=ANTHROPIC_KEY)
 
@@ -133,6 +134,7 @@ def get_existing_titles() -> set:
     res = requests.get(
         f'{WP_URL}/wp-json/wp/v2/categories',
         auth=AUTH,
+        headers=WP_HEADERS,
         params={'slug': COLUMN_CATEGORY_SLUG, 'per_page': 1},
         timeout=10,
     )
@@ -149,6 +151,7 @@ def get_existing_titles() -> set:
         res = requests.get(
             f'{WP_URL}/wp-json/wp/v2/posts',
             auth=AUTH,
+            headers=WP_HEADERS,
             params={'categories': cat_id, 'per_page': 100, 'page': page, '_fields': 'id,title'},
             timeout=15,
         )
@@ -167,9 +170,13 @@ def get_category_id(slug: str) -> int | None:
     res = requests.get(
         f'{WP_URL}/wp-json/wp/v2/categories',
         auth=AUTH,
+        headers=WP_HEADERS,
         params={'slug': slug, 'per_page': 1},
         timeout=10,
     )
+    if res.status_code != 200 or not res.text.strip():
+        print(f'  카테고리 조회 실패: {res.status_code}\n  응답: {res.text[:200]}')
+        return None
     cats = res.json()
     return cats[0]['id'] if cats else None
 
